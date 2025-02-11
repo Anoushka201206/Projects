@@ -1,0 +1,18 @@
+from flask import Flask, render_template
+
+# Create a Flask instance (web app)
+app = Flask(__name__)
+
+# Homepage route
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+# About page route
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+# Run the web application
+if __name__ == "__main__":
+    app.run(debug=True)
