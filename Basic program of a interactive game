@@ -1,0 +1,89 @@
+def start_game():
+    print("Welcome to the Dungeon Adventure!")
+    print("You are about to embark on a journey. Choose your path wisely.")
+    first_choice()
+
+def first_choice():
+    print("\nYou are standing at the entrance of a dark dungeon.")
+    print("There are two paths in front of you.")
+    print("1. Go left into the forest.")
+    print("2. Go right into the dungeon.")
+
+    choice = input("What do you want to do? (1/2): ")
+
+    if choice == "1":
+        left_path()
+    elif choice == "2":
+        right_path()
+    else:
+        print("Invalid choice! Please select 1 or 2.")
+        first_choice()
+
+def left_path():
+    print("\nYou walk into the forest and hear rustling sounds.")
+    print("Suddenly, a wild wolf appears!")
+    print("1. Fight the wolf.")
+    print("2. Run away.")
+
+    choice = input("What do you want to do? (1/2): ")
+
+    if choice == "1":
+        print("\nYou fight the wolf bravely and win! You find a hidden treasure chest.")
+        treasure()
+    elif choice == "2":
+        print("\nYou run away and find a safe area. However, you feel a bit scared.")
+        safe_area()
+    else:
+        print("Invalid choice! Please select 1 or 2.")
+        left_path()
+
+def right_path():
+    print("\nYou enter the dungeon. It's dark and cold.")
+    print("You see two doors in front of you.")
+    print("1. Open the left door.")
+    print("2. Open the right door.")
+
+    choice = input("What do you want to do? (1/2): ")
+
+    if choice == "1":
+        print("\nYou open the left door and fall into a trap! You lose some health but escape.")
+        print("Luckily, you find a health potion on the ground.")
+        potion()
+    elif choice == "2":
+        print("\nYou open the right door and discover a hidden chamber filled with gold!")
+        treasure()
+    else:
+        print("Invalid choice! Please select 1 or 2.")
+        right_path()
+
+def treasure():
+    print("\nYou open the chest and find a treasure! Congratulations!")
+    print("You have completed your adventure.")
+    play_again()
+
+def safe_area():
+    print("\nYou find a safe area where you rest for a while. Eventually, you return to the entrance.")
+    first_choice()
+
+def potion():
+    print("\nYou drink the health potion and feel your strength return.")
+    print("With renewed energy, you decide to continue your journey.")
+    first_choice()
+
+def play_again():
+    print("\nWould you like to play again?")
+    print("1. Yes")
+    print("2. No")
+
+    choice = input("Choose 1 or 2: ")
+
+    if choice == "1":
+        start_game()
+    elif choice == "2":
+        print("Thanks for playing! Goodbye.")
+    else:
+        print("Invalid choice! Please select 1 or 2.")
+        play_again()
+
+# Start the game
+start_game()
