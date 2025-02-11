@@ -1,0 +1,67 @@
+def display_menu():
+    """Display the available items and their prices."""
+    print("\n--- Welcome to the Cash Register ---")
+    print("Items available for purchase:")
+    print("1. Apple - $1.50")
+    print("2. Banana - $1.00")
+    print("3. Orange - $1.25")
+    print("4. Grape - $2.00")
+    print("5. Exit\n")
+
+def get_item_price(item_number):
+    """Return the price based on the selected item."""
+    if item_number == 1:
+        return 1.50
+    elif item_number == 2:
+        return 1.00
+    elif item_number == 3:
+        return 1.25
+    elif item_number == 4:
+        return 2.00
+    else:
+        return 0
+
+def calculate_change(payment, total_amount):
+    """Calculate and return the change."""
+    if payment < total_amount:
+        return -1  # Indicate that payment is insufficient
+    else:
+        return round(payment - total_amount, 2)
+
+def process_transaction():
+    """Handle the entire transaction process."""
+    total_amount = 0
+    while True:
+        display_menu()
+        try:
+            item_number = int(input("Enter the item number to add to your cart (1-4), or 5 to checkout: "))
+        except ValueError:
+            print("Invalid input! Please enter a number.")
+            continue
+        
+        if item_number == 5:
+            break  # Exit the loop if the user chooses to checkout
+        
+        item_price = get_item_price(item_number)
+        
+        if item_price > 0:
+            total_amount += item_price
+            print(f"Item added. Current total: ${total_amount:.2f}")
+        else:
+            print("Invalid item choice! Please choose a valid item.")
+    
+    print(f"\nYour total is: ${total_amount:.2f}")
+    payment = float(input("Enter the amount you are paying: $"))
+
+    # Calculate the change
+    change = calculate_change(payment, total_amount)
+    
+    if change == -1:
+        print("Insufficient payment. Please provide enough money.")
+    else:
+        print(f"Payment received: ${payment:.2f}")
+        print(f"Change due: ${change:.2f}")
+        print("Thank you for your purchase!")
+
+# Start the cash register program
+process_transaction()
