@@ -1,0 +1,80 @@
+import random
+import mysql.connector
+fare=0  #RS10 FOR EACH KM
+conn=mysql.connector.connect(user='root',passwd='system123',host='localhost',db='project',charset='utf8')
+c=conn.cursor()
+v=input('Would you like to book a taxi,an auto or a bike?:')
+#USER dETAILS
+name=input('Please enter your name:') #TO BE USE FOR CANCELLATION 
+date=input('Enter the date:')
+m=input('Would you like an entertainment for the ride?(songs,movies-chargeable extra Rs50):')
+if(m.lower()=='yes'):
+    fare+=50  
+otp=random.randint(1000,9999)
+starting_loc=input('Please enter the current location:')
+dest=input('Please enter your destination:')
+distance='select distance_km from Areadistances where area_1=%s and area_2=%s'
+c.execute(distance,(starting_loc,dest))
+result=c.fetchone()
+for i in result:
+    global fare1
+    fare1=fare+(i*10)
+#AUTO
+if (v.lower()=='auto'):
+    s='select * from available_autos;'
+ #TAXI    
+elif (v.lower()=='taxi'):
+    s='select * from available_taxis;'
+
+#BIKE  
+elif (v.lower()=='bike'):
+    s='select * from available_bikes;'
+c.execute(s)
+result=c.fetchall()
+l=[]
+l+=result
+booking = random.choice(l)
+print('Your booking details are as follows:-','\n','License Plate No:',booking[0],'\n','Name:',booking[1],'\n','Phone No:',booking[2])
+print('Your otp is:',otp)
+print('Your fare for the ride is: Rs',fare1,'only')
+r=input('Your ride is booked! do you wish to cancel it?:')
+#dETAILS FOR AdMIN TABLE
+if (r.lower()=='yes'):
+    ride='cancelled'
+    print('Ride is cancelled!')
+elif (r.lower()=='no'):
+    ride='success'
+    print('Ride is booked successfully!')
+    print('\n')
+c1= input('Admin or customer?:')
+if (c1.lower()=='customer'):
+    print('Access Denied')
+elif(c1.lower()=='admin'):
+    psswd='A_access'
+    p=input('Enter passwd:')
+t=(name,date,ride,fare1,v,starting_loc,dest,booking[1],booking[0])        
+#dETAILS INCLUdEd IN THE AdMIN TABLE:
+    # NAME
+    # dATE
+    # RIdE--SUCCESS/CANCELLEd
+    # FARE PAId # fareinfo= fare1
+    # TYPE OF VEHICLE BOOKEd
+    # STARTING POINT 
+    # dESTINATION
+    # DRIVER NAME
+    # LICENSE PLATE
+s1='create table admin(name varchar(20) NOT NULL, Day_of_ride varchar(30) NOT NULL, ride varchar(20) NOT NULL, fare_paid float(10,2) NOT NULL, Type_of_Vehicle_Booked varchar(15) NOT NULL, starting_point varchar(40) NOT NULL, destination varchar(40) NOT NULL, driver_name varchar(20) NOT NULL, license_plate varchar(30) NOT NULL)'
+c.execute(s1)
+s3='insert into admin values("%s","%s","%s",%s,"%s","%s","%s","%s","%s");'%(t)
+c.execute(s3)
+conn.commit()
+if (p==psswd):
+    s2='select * from admin;'
+    c.execute(s2)
+    result1=c.fetchall()
+    h=('Name','date','Ride','Fare','Type','Starting Location','destination','driver name','License plate no')
+    print(h)
+    for i in result1:
+        print(i)
+  else:
+    print('Access denied')
